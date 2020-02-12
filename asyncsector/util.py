@@ -44,3 +44,9 @@ def find_version(string):
 
     r=re.search('v\d+_\d+_\d+',string)
     return r.group(0) if r else None
+
+def find(f, seq):
+  """Return first item in sequence where f(item) == True."""
+  for item in seq:
+    if f(item): 
+      return item

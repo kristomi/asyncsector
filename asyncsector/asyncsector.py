@@ -12,6 +12,7 @@ class AsyncSector(object):
     Login = 'User/Login'
     Alarm = 'Panel/GetOverview'
     Temperatures = 'Panel/GetTempratures/'
+    Locks = 'Locks/GetLocks/?WithStatus=true&id={}'
     History = 'Panel/GetPanelHistory/{}'
     Arm = 'Panel/ArmPanel'
     Version = 'v1_1_68'
@@ -74,7 +75,7 @@ class AsyncSector(object):
                 'Version': self._version
             }
         )
-
+        
         return await get_json(request)
 
     async def get_temperatures(self):
@@ -89,6 +90,15 @@ class AsyncSector(object):
             AsyncSector.Base + AsyncSector.Temperatures,
             json=data)
         
+
+        return await get_json(request)
+
+    async def get_locks(self):
+        """
+        Fetches a list of all locks
+        """
+        request = self._session.get(
+            AsyncSector.Base + AsyncSector.Locks.format(self.alarm_id))
 
         return await get_json(request)
 
