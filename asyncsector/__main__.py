@@ -54,12 +54,12 @@ async def async_main(loop):
 
         if args.lock:
             result = await alarm.lock(args.lock, args.code)
-            print("lock: {}").format(result)
+            print("lock: {}".format(result))
             return result
 
         if args.unlock:
             result = await alarm.unlock(args.unlock, args.code)
-            print("unlock: {}").format(result)
+            print("unlock: {}".format(result))
             return result
 
         for i in range(0, args.repeat):
