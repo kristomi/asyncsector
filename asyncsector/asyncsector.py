@@ -77,7 +77,7 @@ class AsyncSector(object):
                 'Version': self._version
             }
         )
-        
+
         return await get_json(request)
 
     async def get_temperatures(self):

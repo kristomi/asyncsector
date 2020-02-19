@@ -3,7 +3,6 @@
 import sys
 import asyncio
 import argparse
-import json
 
 import aiohttp
 
@@ -102,7 +101,6 @@ async def async_main(loop):
             if args.status:
                 print()
                 print("IsOnline: {}".format(status['Panel']['IsOnline']))
-                # print(json.dumps(status, indent=4, sort_keys=True))
 
 def main():
     '''
