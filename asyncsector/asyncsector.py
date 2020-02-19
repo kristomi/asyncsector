@@ -13,6 +13,8 @@ class AsyncSector(object):
     Alarm = 'Panel/GetOverview'
     Temperatures = 'Panel/GetTempratures/'
     Locks = 'Locks/GetLocks/?WithStatus=true&id={}'
+    Lock = 'Locks/Lock'
+    Unlock = 'Locks/Unlock'
     History = 'Panel/GetPanelHistory/{}'
     Arm = 'Panel/ArmPanel'
     Version = 'v1_1_68'
@@ -142,3 +144,28 @@ class AsyncSector(object):
     async def arm_away(self, code=None):
         """ Send arm away command """
         return await self.alarm_toggle('Total', code=code)
+
+    async def lock_toggle(self, stateUrl, lockSerial=None, code=None):
+        """ Tries to toggle the state of the lock """
+        data = {
+            'LockSerial': lockSerial,
+            'DisarmCode': code,
+            'id': self.alarm_id
+        }
+
+        request = self._session.post(
+            AsyncSector.Base + stateUrl, json=data)
+
+        result = await get_json(request)
+        if result and 'Status' in result and result['Status'] == 'success':
+            return True
+
+        return False
+
+    async def unlock(self, lock=None, code=None):
+        """ Send unlock door command """
+        return await self.lock_toggle(AsyncSector.Unlock, lockSerial=lock, code=code)
+
+    async def lock(self, lock=None, code=None):
+        """ Send lock door command """
+        return await self.lock_toggle(AsyncSector.Lock, lockSerial=lock, code=code)

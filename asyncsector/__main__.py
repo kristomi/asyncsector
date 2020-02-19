@@ -31,6 +31,9 @@ async def async_main(loop):
     parser.add_argument('--version', type=str, default='auto', help='Version string or "auto"')
     parser.add_argument('--getversion',dest='getversion',action='store_true')
     parser.add_argument('--status', type=int, default=1)
+    parser.add_argument('--lock', type=str)
+    parser.add_argument('--unlock', type=str)
+    parser.add_argument('--code', type=str)
     parser.set_defaults(getversion=False)
 
     args = parser.parse_args()
@@ -48,6 +51,16 @@ async def async_main(loop):
         if not alarm:
             print("Failed to connecto to alarm, bad credentials")
             return
+
+        if args.lock:
+            result = await alarm.lock(args.lock, args.code)
+            print("lock: {}").format(result)
+            return result
+
+        if args.unlock:
+            result = await alarm.unlock(args.unlock, args.code)
+            print("unlock: {}").format(result)
+            return result
 
         for i in range(0, args.repeat):
 
@@ -84,7 +97,7 @@ async def async_main(loop):
                 print("Locks:")
                 for lock in locks:
                     info = find(lambda data: data['Serial'] == lock['Serial'], status['Locks'])
-                    print('{:12}{}'.format(info['Label'], lock['Status']))
+                    print('{:12}{:12}{}'.format(lock['Serial'], info['Label'], lock['Status']))
 
             if args.status:
                 print()
