@@ -99,10 +99,13 @@ class AsyncSector(object):
         """
         Fetches a list of all locks
         """
-        request = self._session.get(
-            AsyncSector.Base + AsyncSector.Locks.format(self.alarm_id))
+        try:
+            request = self._session.get(
+                AsyncSector.Base + AsyncSector.Locks.format(self.alarm_id))
 
-        return await get_json(request)
+            return await get_json(request)
+        except:
+            return None
 
     async def get_history(self):
         """
