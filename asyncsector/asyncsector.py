@@ -17,7 +17,7 @@ class AsyncSector(object):
     Unlock = 'Locks/Unlock'
     History = 'Panel/GetPanelHistory/{}'
     Arm = 'Panel/ArmPanel'
-    Version = 'v1_1_93'
+    Version = 'v1_1_95'
 
     @staticmethod
     async def getapiversion(session):
